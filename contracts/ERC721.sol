@@ -93,4 +93,9 @@ contract ERC721 {
         return true;
     }
 
+    // EIP165 : Query if a contract implements another interface -> call this function and find out if another smartcontract has the function that we're looking for
+    function supportsInterface(bytes4 interfaceId) public pure virtual returns(bool) {
+        return interfaceId == 0x80ac58cd;
+    }
+
 } 
