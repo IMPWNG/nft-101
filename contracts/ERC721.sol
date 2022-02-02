@@ -2,6 +2,8 @@ pragma solidity ^0.8.2;
 
 contract ERC721 {
 
+    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+
     event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);
 
     event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
@@ -54,5 +56,41 @@ contract ERC721 {
         return _tokenApprovals[tokenId];
     }
 
+    // Transfer ownership of an NFT
+    function transferFrom(address from, address to, uint256 tokenId) public {
+        address owner = ownerOf(tokenId);
+        require (
+            msg.sender == owner ||
+            getApproved(tokenId) == msg.sender ||
+            isApprovedForAll(owner, msg.sender),
+            "msg.sender is not the owner or approved for transfer"
+        );
+        require(owner == from, "From address is not the owner");
+        require(to != address(0), "Address is 0");
+        require(_owners[tokenId] != address(0), "TokenId does not exist");
+        approve(address(0),tokenId);
+
+        _balance[from] -= 1;
+        _balance[to] += 1;
+        _owners[tokenId] = to;
+
+        emit Transfer(from, to, tokenId);
+    }
+
+    // Standart transferFrom
+    // Check if on ERC721Received is implemented WHEN sending to smart contract
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public {
+        transferFrom(from, to, tokenId);
+        require(_checkOnERC721Received(), "Receiver not implemented");
+    }
+
+    function SafeTransferFrom((address from, address to, uint256 tokenId) {
+        safeTransferFrom(from, to, tokenId, "");
+    }
+
+    // Oversimplified
+    function _checkOnERC721Received() private pure returns(bool) {
+        return true;
+    }
 
 } 
