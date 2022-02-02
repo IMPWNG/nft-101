@@ -38,6 +38,8 @@ contract SuperMarioWorld is ERC721 {
         emit Transfer(address(0),  msg.sender, tokenCount);
     }
 
-    // Mint function
-    // support interface function
+    function supportsInterface(bytes4 interfaceId) public pure override returns(bool) {
+        return interfaceId == 0x80ac58cd || interfaceId == 0x5b5e139f;
+
+    }
 }
