@@ -1,3 +1,5 @@
+//SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.2;
 
 import "./ERC721.sol";
@@ -22,7 +24,7 @@ contract SuperMarioWorld is ERC721 {
 
     // Returns an URL that points to the metadata
     function tokenURI(uint256 tokenId) public returns (string memory) {
-        require(_owner[tokenId] =! address(0), "TokenId does not exist");
+        require(_owners[tokenId] != address(0), "TokenId does not exist");
         return _tokenURIs[tokenId];
 
     }

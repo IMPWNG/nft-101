@@ -1,3 +1,5 @@
+//SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.2;
 
 contract ERC721 {
@@ -24,7 +26,7 @@ contract ERC721 {
     }
 
     // Finds the owner of an NFT
-    function ownerOf(uint256 token) public view returns(address) {  
+    function ownerOf(uint256 tokenId) public view returns(address) {  
         address owner = _owners[tokenId];
         require(owner != address(0), "TokenID does not exist");
         return owner;
@@ -47,12 +49,12 @@ contract ERC721 {
         address owner = ownerOf(tokenId);
         require(msg.sender == owner || isApprovedForAll(owner, msg.sender), "Msg.sender is not the owner or an approved operator");
         _tokenApprovals[tokenId] = to;
-        emit Approve(owner, to, tokenId)
+        emit Approval(owner, to, tokenId);
     }
 
     // Get the approved address for a single NFT
-    function getApproved(uint256 tokenId) returns(address) public view returns(address) {
-        require(_owners[tokenId] != address(0), "Token ID does not exist")
+    function getApproved(uint256 tokenId) public view returns(address) {
+        require(_owners[tokenId] != address(0), "Token ID does not exist");
         return _tokenApprovals[tokenId];
     }
 
@@ -70,8 +72,8 @@ contract ERC721 {
         require(_owners[tokenId] != address(0), "TokenId does not exist");
         approve(address(0),tokenId);
 
-        _balance[from] -= 1;
-        _balance[to] += 1;
+        _balances[from] -= 1;
+        _balances[to] += 1;
         _owners[tokenId] = to;
 
         emit Transfer(from, to, tokenId);
@@ -83,8 +85,9 @@ contract ERC721 {
         transferFrom(from, to, tokenId);
         require(_checkOnERC721Received(), "Receiver not implemented");
     }
+    
 
-    function SafeTransferFrom((address from, address to, uint256 tokenId) {
+    function SafeTransferFrom(address from, address to, uint256 tokenId) public {
         safeTransferFrom(from, to, tokenId, "");
     }
 
