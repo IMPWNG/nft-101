@@ -9,7 +9,7 @@ async function main() {
 
   console.log("Succes! Contract was deployed to:", superMarioWorld.address);
 
-  await superMarioWorld.mint("https://ipfs.io/ipfs/QmQSg66NYGXhP12tnFcaSm8Gr7h93eZyyz1Mo27MCVvVso");
+  await superMarioWorld.mint("https://ipfs.io/ipfs/QmSW4F2Pwn8MXyiHQELCe76Sp99DAAFV6XiRQEcU18bVrZ");
   
   console.log("NFT successfully minted");
 }
